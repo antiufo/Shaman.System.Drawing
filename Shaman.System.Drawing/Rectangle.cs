@@ -1,3 +1,4 @@
+#if !NETSTANDARD20
 using System;
 using System.ComponentModel;
 using System.Globalization;
@@ -428,3 +429,4 @@ namespace System.Drawing
 		}
 	}
 }
+#endif

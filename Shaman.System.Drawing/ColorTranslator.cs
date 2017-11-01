@@ -33,7 +33,7 @@ namespace System.Drawing
 		{
 			return (int)c.R | (int)c.G << 8 | (int)c.B << 16;
 		}
-
+#if !NETSTANDARD20
 		/// <summary>Translates the specified <see cref="T:System.Drawing.Color" /> structure to an OLE color.</summary>
 		/// <returns>The OLE color value.</returns>
 		/// <param name="c">The <see cref="T:System.Drawing.Color" /> structure to translate. </param>
@@ -123,15 +123,15 @@ namespace System.Drawing
 			}
 			return ColorTranslator.ToWin32(c);
 		}
-
-		/// <summary>Translates an OLE color value to a GDI+ <see cref="T:System.Drawing.Color" /> structure.</summary>
-		/// <returns>The <see cref="T:System.Drawing.Color" /> structure that represents the translated OLE color.</returns>
-		/// <param name="oleColor">The OLE color to translate. </param>
-		/// <filterpriority>1</filterpriority>
-		/// <PermissionSet>
-		///   <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
-		/// </PermissionSet>
-		public static Color FromOle(int oleColor)
+        
+        /// <summary>Translates an OLE color value to a GDI+ <see cref="T:System.Drawing.Color" /> structure.</summary>
+        /// <returns>The <see cref="T:System.Drawing.Color" /> structure that represents the translated OLE color.</returns>
+        /// <param name="oleColor">The OLE color to translate. </param>
+        /// <filterpriority>1</filterpriority>
+        /// <PermissionSet>
+        ///   <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        /// </PermissionSet>
+        public static Color FromOle(int oleColor)
 		{
 			if ((int)((long)oleColor & (long)(-16777216)) == -2147483648 && (oleColor & 16777215) <= 30)
 			{
@@ -213,14 +213,14 @@ namespace System.Drawing
 		{
 			return ColorTranslator.FromOle(win32Color);
 		}
-
-		/// <summary>Translates an HTML color representation to a GDI+ <see cref="T:System.Drawing.Color" /> structure.</summary>
-		/// <returns>The <see cref="T:System.Drawing.Color" /> structure that represents the translated HTML color or <see cref="F:System.Drawing.Color.Empty" /> if <paramref name="htmlColor" /> is null.</returns>
-		/// <param name="htmlColor">The string representation of the Html color to translate. </param>
-		/// <exception cref="T:System.Exception">
-		///   <paramref name="htmlColor" /> is not a valid HTML color name.</exception>
-		/// <filterpriority>1</filterpriority>
-		public static Color FromHtml(string htmlColor)
+#endif
+        /// <summary>Translates an HTML color representation to a GDI+ <see cref="T:System.Drawing.Color" /> structure.</summary>
+        /// <returns>The <see cref="T:System.Drawing.Color" /> structure that represents the translated HTML color or <see cref="F:System.Drawing.Color.Empty" /> if <paramref name="htmlColor" /> is null.</returns>
+        /// <param name="htmlColor">The string representation of the Html color to translate. </param>
+        /// <exception cref="T:System.Exception">
+        ///   <paramref name="htmlColor" /> is not a valid HTML color name.</exception>
+        /// <filterpriority>1</filterpriority>
+        public static Color FromHtml(string htmlColor)
 		{
 			Color result = Color.Empty;
 			if (htmlColor == null || htmlColor.Length == 0)
@@ -283,6 +283,7 @@ namespace System.Drawing
 			{
 				return result;
 			}
+#if !NETSTANDARD20
 			if (c.IsSystemColor)
 			{
 				KnownColor knownColor = c.ToKnownColor();
@@ -387,7 +388,9 @@ namespace System.Drawing
 				IL_171:
 				result = "menu";
 			}
-			else if (c.IsNamedColor)
+			else 
+#endif
+            if (c.IsNamedColor)
 			{
 				if (c == Color.LightGray)
 				{
@@ -408,6 +411,7 @@ namespace System.Drawing
 		private static void InitializeHtmlSysColorTable()
 		{
 			ColorTranslator.htmlSysColorTable = new Dictionary<string, Color>(26);
+#if !NETSTANDARD20
 			ColorTranslator.htmlSysColorTable["activeborder"] = Color.FromKnownColor(KnownColor.ActiveBorder);
 			ColorTranslator.htmlSysColorTable["activecaption"] = Color.FromKnownColor(KnownColor.ActiveCaption);
 			ColorTranslator.htmlSysColorTable["appworkspace"] = Color.FromKnownColor(KnownColor.AppWorkspace);
@@ -435,6 +439,7 @@ namespace System.Drawing
 			ColorTranslator.htmlSysColorTable["window"] = Color.FromKnownColor(KnownColor.Window);
 			ColorTranslator.htmlSysColorTable["windowframe"] = Color.FromKnownColor(KnownColor.WindowFrame);
 			ColorTranslator.htmlSysColorTable["windowtext"] = Color.FromKnownColor(KnownColor.WindowText);
+#endif
 		}
 	}
 }

@@ -78,7 +78,9 @@ namespace System.Drawing
 						if (ColorConverter.systemColorConstants == null)
 						{
 							var expr_28 = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
+#if !NETSTANDARD20
 							ColorConverter.FillConstants(expr_28, typeof(SystemColors));
+#endif
 							ColorConverter.systemColorConstants = expr_28;
 						}
 					}
@@ -235,10 +237,12 @@ namespace System.Drawing
 					{
 						return string.Empty;
 					}
+#if !NETSTANDARD20
 					if (left.IsKnownColor)
 					{
 						return left.Name;
 					}
+#endif
 					if (left.IsNamedColor)
 					{
 						return "'" + left.Name + "'";

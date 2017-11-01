@@ -1,3 +1,4 @@
+#if !NETSTANDARD20
 using System;
 
 namespace System.Drawing
@@ -6,6 +7,7 @@ namespace System.Drawing
 	/// <filterpriority>1</filterpriority>
 	public sealed class SystemColors
 	{
+
 		/// <summary>Gets a <see cref="T:System.Drawing.Color" /> structure that is the color of the active window's border.</summary>
 		/// <returns>A <see cref="T:System.Drawing.Color" /> that is the color of the active window's border.</returns>
 		/// <filterpriority>1</filterpriority>
@@ -374,3 +376,4 @@ namespace System.Drawing
 		}
 	}
 }
+#endif

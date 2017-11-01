@@ -22,6 +22,7 @@ namespace System.Drawing
 
 		private const int Win32BlueShift = 16;
 
+#if !NETSTANDARD20
 		public static Color ArgbToKnownColor(int targetARGB)
 		{
 			KnownColorTable.EnsureColorTable();
@@ -38,7 +39,7 @@ namespace System.Drawing
 			}
 			return Color.FromArgb(targetARGB);
 		}
-
+#endif
 		private static void EnsureColorTable()
 		{
 			if (KnownColorTable.colorTable == null)
